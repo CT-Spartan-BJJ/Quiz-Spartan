@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz de Brazilian Jiu-Jitsu</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        .question {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 600px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .option {
+            padding: 15px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .option:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        .score {
+            margin-top: 30px;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Quiz de Brazilian Jiu-Jitsu</h1>
+    <div class="score" id="score">Pontuação: 0</div>
+
+    <div id="quiz-container">
+        <!-- As perguntas serão inseridas aqui via JavaScript -->
+    </div>
+
+    <button class="option" id="next-button" onclick="nextQuestion()" class="hidden">Próxima Pergunta</button>
+
+    <script>
+        const questions = [
+            {
+                question: "1. Qual é a posição mais comum para finalizar um oponente no BJJ?",
+                options: ["Montada", "Guarda", "Side Control", "Back Mount"],
+                answer: "Montada"
+            },
+            {
+                question: "2. Qual é o nome da técnica de finalização que envolve pressionar o pescoço do oponente com as pernas?",
+                options: ["Armbar", "Triangle Choke", "Kimura", "Omoplata"],
+                answer: "Triangle Choke"
+            },
+            {
+                question: "3. Qual faixa vem logo após a faixa azul no BJJ?",
+                options: ["Roxa", "Marrom", "Preta", "Coral"],
+                answer: "Roxa"
+            },
+            {
+                question: "4. Qual é o nome da posição onde você está de costas para o oponente, mas com os ganchos colocados?",
+                options: ["Montada", "Guarda Fechada", "Back Mount", "Side Control"],
+                answer: "Back Mount"
+            },
+            {
+                question: "5. Qual técnica é conhecida por torcer o braço do oponente usando as pernas?",
+                options: ["Armbar", "Kimura", "Omoplata", "Triangle Choke"],
+                answer: "Omoplata"
+            },
+            {
+                question: "6. Qual é o nome da guarda onde você segura o oponente com as pernas cruzadas atrás das costas dele?",
+                options: ["Guarda Fechada", "Guarda Aberta", "Guarda de Aranha", "Guarda de Borboleta"],
+                answer: "Guarda Fechada"
+            },
+            {
+                question: "7. Qual é a faixa inicial no BJJ?",
+                options: ["Branca", "Azul", "Roxa", "Marrom"],
+                answer: "Branca"
+            },
+            {
+                question: "8. Qual é o nome da técnica que envolve torcer o ombro do oponente?",
+                options: ["Armbar", "Kimura", "Triangle Choke", "Guillotine"],
+                answer: "Kimura"
+            },
+            {
+                question: "9. Qual é o nome da posição onde você está por cima do oponente, controlando um dos braços dele?",
+                options: ["Montada", "Side Control", "North-South", "Kesa-Gatame"],
+                answer: "Kesa-Gatame"
+            },
+            {
+                question: "10. Qual é o nome da técnica que envolve estrangular o oponente com o braço por trás do pescoço?",
+                options: ["Triangle Choke", "Rear Naked Choke", "Guillotine", "Armbar"],
+                answer: "Rear Naked Choke"
+            },
+            {
+                question: "11. Qual é o nome da guarda onde você usa os pés para controlar os braços do oponente?",
+                options: ["Guarda de Aranha", "Guarda Aberta", "Guarda de Borboleta", "Guarda Fechada"],
+                answer: "Guarda de Aranha"
+            },
+            {
+                question: "12. Qual é o nome da posição onde você está perpendicular ao oponente, controlando o torso dele?",
+                options: ["Side Control", "Montada", "Back Mount", "North-South"],
+                answer: "Side Control"
+            },
+            {
+                question: "13. Qual é o nome da técnica que envolve torcer o joelho do oponente?",
+                options: ["Armbar", "Kimura", "Heel Hook", "Omoplata"],
+                answer: "Heel Hook"
+            },
+            {
+                question: "14. Qual é o nome da posição onde você está de frente para o oponente, mas com os ganchos colocados?",
+                options: ["Montada", "Back Mount", "Side Control", "North-South"],
+                answer: "Montada"
+            },
+            {
+                question: "15. Qual é o nome da técnica que envolve estrangular o oponente com as pernas?",
+                options: ["Triangle Choke", "Armbar", "Omoplata", "Kimura"],
+                answer: "Triangle Choke"
+            },
+            {
+                question: "16. Qual é o nome da guarda onde você usa os joelhos para controlar o oponente?",
+                options: ["Guarda de Borboleta", "Guarda de Aranha", "Guarda Aberta", "Guarda Fechada"],
+                answer: "Guarda de Borboleta"
+            },
+            {
+                question: "17. Qual é o nome da posição onde você está de cabeça para baixo em relação ao oponente?",
+                options: ["North-South", "Side Control", "Montada", "Back Mount"],
+                answer: "North-South"
+            },
+            {
+                question: "18. Qual é o nome da técnica que envolve torcer o tornozelo do oponente?",
+                options: ["Heel Hook", "Toe Hold", "Kimura", "Armbar"],
+                answer: "Toe Hold"
+            },
+            {
+                question: "19. Qual é o nome da guarda onde você usa os pés para empurrar o oponente?",
+                options: ["Guarda Aberta", "Guarda de Aranha", "Guarda de Borboleta", "Guarda Fechada"],
+                answer: "Guarda Aberta"
+            },
+            {
+                question: "20. Qual é o nome da técnica que envolve estrangular o oponente com o braço por trás da cabeça?",
+                options: ["Guillotine", "Rear Naked Choke", "Triangle Choke", "Armbar"],
+                answer: "Guillotine"
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        const quizContainer = document.getElementById("quiz-container");
+        const nextButton = document.getElementById("next-button");
+        const scoreElement = document.getElementById("score");
+
+        function displayQuestion() {
+            const question = questions[currentQuestionIndex];
+            quizContainer.innerHTML = `
+                <div class="question">
+                    <h2>${question.question}</h2>
+                    <div class="options">
+                        ${question.options.map(option => `
+                            <button class="option" onclick="checkAnswer('${option}')">${option}</button>
+                        `).join("")}
+                    </div>
+                    <div class="result" id="result"></div>
+                </div>
+            `;
+        }
+
+        function checkAnswer(selectedAnswer) {
+            const question = questions[currentQuestionIndex];
+            const resultElement = document.getElementById("result");
+            if (selectedAnswer === question.answer) {
+                resultElement.textContent = "Resposta Correta!";
+                resultElement.style.color = "green";
+                score++;
+            } else {
+                resultElement.textContent = `Resposta Incorreta! A resposta correta é: ${question.answer}`;
+                resultElement.style.color = "red";
+            }
+            scoreElement.textContent = `Pontuação: ${score}`;
+            nextButton.classList.remove("hidden");
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                displayQuestion();
+                nextButton.classList.add("hidden");
+            } else {
+                quizContainer.innerHTML = `
+                    <div class="question">
+                        <h2>Fim do Quiz!</h2>
+                        <p>Sua pontuação final é: ${score} de ${questions.length}</p>
+                    </div>
+                `;
+                nextButton.classList.add("hidden");
+            }
+        }
+
+        displayQuestion();
+    </script>
+
+</body>
+</html>
